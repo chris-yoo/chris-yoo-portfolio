@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import assert from 'node:assert/strict';
 
-const html = readFileSync(new URL('./portfolio.html', import.meta.url), 'utf8');
+const html = readFileSync(new URL('./index.html', import.meta.url), 'utf8');
 
 assert.match(html, /유승민 \| Portfolio/);
 assert.match(html, /AI Product Builder · Service &amp; Business Development/);
