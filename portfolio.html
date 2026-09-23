@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>유승민 | Portfolio</title>
+<style>
+  :root {
+    --navy: #0f2f5f;
+    --blue: #1a56db;
+    --ink: #111418;
+    --gray: #5b6470;
+    --line: #d8dde4;
+    --mark: #dbe7fb;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+      "Pretendard", "Malgun Gothic", sans-serif;
+    background: #8a8f96;
+    color: var(--ink);
+    word-break: keep-all;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .slide {
+    position: relative;
+    width: 297mm;
+    height: 210mm;
+    background: #fff;
+    margin: 10mm auto;
+    padding: 15mm 18mm 13mm;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---------- 공통 요소 ---------- */
+  .eyebrow {
+    font-size: 10.5pt;
+    letter-spacing: .04em;
+    color: var(--blue);
+    font-weight: 700;
+    margin-bottom: 3mm;
+  }
+  h1.title {
+    font-size: 23pt;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    line-height: 1.25;
+    margin-bottom: 2mm;
+  }
+  .headline {
+    font-size: 13pt;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.4;
+    margin-bottom: 1.5mm;
+  }
+  .subtitle {
+    font-size: 11.5pt;
+    color: var(--gray);
+    margin-bottom: 6mm;
+  }
+  h1.title + .headline { margin-top: 1mm; }
+  .rule {
+    height: 2.5px;
+    background: var(--navy);
+    width: 100%;
+    margin-bottom: 6mm;
+  }
+  .pageno {
+    position: absolute;
+    right: 18mm;
+    bottom: 7mm;
+    font-size: 9.5pt;
+    color: #9aa2ac;
+    letter-spacing: .05em;
+  }
+  .foot {
+    position: absolute;
+    left: 18mm;
+    bottom: 7mm;
+    font-size: 9.5pt;
+    color: #9aa2ac;
+  }
+
+  b, strong { font-weight: 700; }
+  .hl {
+    background: linear-gradient(transparent 58%, var(--mark) 58%);
+    font-weight: 700;
+  }
+  .nv { color: var(--navy); font-weight: 700; }
+  .bl { color: var(--blue); font-weight: 700; }
+
+  /* ---------- 레이아웃 ---------- */
+  .body { flex: 1; display: flex; gap: 10mm; min-height: 0; }
+  .col { flex: 1; min-width: 0; }
+  .col-40 { flex: 0 0 40%; min-width: 0; }
+  .col-45 { flex: 0 0 45%; min-width: 0; }
+  .col-55 { flex: 0 0 55%; min-width: 0; }
+  .col-60 { flex: 0 0 60%; min-width: 0; }
+
+  .stack { display: flex; flex-direction: column; gap: 4mm; height: 100%; }
+
+  /* ---------- 텍스트 블록 ---------- */
+  .lead {
+    font-size: 12.5pt;
+    line-height: 1.6;
+    margin-bottom: 5mm;
+  }
+  .block { margin-bottom: 5mm; }
+  .block:last-child { margin-bottom: 0; }
+  .label {
+    display: inline-block;
+    font-size: 9.5pt;
+    font-weight: 800;
+    color: #fff;
+    background: var(--navy);
+    padding: 1mm 2.5mm;
+    border-radius: 2px;
+    margin-bottom: 2mm;
+    letter-spacing: .03em;
+  }
+  .label.ghost {
+    background: none;
+    color: var(--navy);
+    border: 1.5px solid var(--navy);
+  }
+  ul { list-style: none; }
+  li {
+    font-size: 11pt;
+    line-height: 1.55;
+    padding-left: 4.5mm;
+    position: relative;
+    margin-bottom: 1.8mm;
+  }
+  li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 2.3mm;
+    width: 1.6mm; height: 1.6mm;
+    background: var(--blue);
+    border-radius: 50%;
+  }
+  li.dash::before {
+    top: 3mm; height: 1px; width: 2.6mm; border-radius: 0;
+    background: #b6bdc6;
+  }
+  p.txt { font-size: 11pt; line-height: 1.6; margin-bottom: 2.5mm; }
+
+  /* ---------- 이미지 ---------- */
+  figure { margin: 0; display: flex; flex-direction: column; min-height: 0; }
+  figure img {
+    width: 100%;
+    object-fit: cover;
+    object-position: top center;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    display: block;
+  }
+  figcaption {
+    font-size: 9pt;
+    color: var(--gray);
+    margin-top: 1.5mm;
+    line-height: 1.4;
+  }
+  .grow img { height: 100%; min-height: 0; flex: 1; }
+  .grow { flex: 1; min-height: 0; }
+
+  /* ---------- 카드/표 ---------- */
+  .cards { display: flex; gap: 4mm; }
+  .card {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--navy);
+    padding: 4mm;
+    min-width: 0;
+  }
+  .card h4 { font-size: 11.5pt; font-weight: 800; margin-bottom: 2mm; }
+  .card { display: flex; flex-direction: column; }
+  .card p { font-size: 10pt; color: #3c444e; line-height: 1.5; }
+  .card .tag {
+    font-size: 9pt; color: var(--blue); font-weight: 700;
+    display: block; margin-bottom: 1.5mm;
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+  th, td {
+    text-align: left;
+    font-size: 10.5pt;
+    padding: 2.5mm 3mm;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    background: #f4f7fb;
+    font-weight: 800;
+    font-size: 10pt;
+    color: var(--navy);
+    border-bottom: 2px solid var(--navy);
+  }
+
+  /* ---------- 성과 수치 ---------- */
+  .metrics { display: flex; gap: 4mm; }
+  .metric {
+    flex: 1;
+    border: 1px solid var(--line);
+    padding: 3.5mm;
+    text-align: center;
+  }
+  .metric .num {
+    font-size: 19pt; font-weight: 800; color: var(--navy);
+    line-height: 1.1; display: block;
+  }
+  .metric .cap { font-size: 9.5pt; color: var(--gray); margin-top: 1.5mm; display: block; }
+
+  /* ---------- 흐름 ---------- */
+  .flow { display: flex; align-items: stretch; gap: 0; }
+  .flow .step {
+    flex: 1; border: 1px solid var(--line); padding: 3mm 2.5mm;
+    text-align: center; position: relative; min-width: 0;
+  }
+  .flow .step + .step { border-left: none; }
+  .flow .step .n { font-size: 9pt; color: var(--blue); font-weight: 800; display: block; }
+  .flow .step .t { font-size: 10pt; font-weight: 700; margin-top: 1mm; display: block; }
+
+  .loop { display: flex; align-items: center; gap: 2mm; flex-wrap: wrap; }
+  .loop span.node {
+    font-size: 10pt; font-weight: 700; color: var(--navy);
+    border: 1.5px solid var(--navy); padding: 1.5mm 3mm; border-radius: 20px;
+  }
+  .loop span.arrow { color: var(--blue); font-weight: 800; }
+
+  .quote {
+    border-left: 3px solid var(--blue);
+    padding: 2mm 0 2mm 4mm;
+    font-size: 11.5pt;
+    line-height: 1.55;
+    color: #23303f;
+    margin: 4mm 0;
+  }
+
+  /* ---------- 표지 ---------- */
+  .cover { justify-content: center; }
+  .cover .name { font-size: 40pt; font-weight: 800; letter-spacing: -.03em; }
+  .cover .role { font-size: 15pt; color: var(--navy); font-weight: 700; margin-top: 2mm; }
+  .cover .one { font-size: 13pt; color: #3c444e; margin-top: 8mm; line-height: 1.6; }
+  .cover .meta { font-size: 10.5pt; color: var(--gray); margin-top: 10mm; line-height: 1.9; }
+  .cover-photo {
+    width: 42mm; height: 42mm; border-radius: 50%;
+    object-fit: cover; border: 3px solid var(--navy);
+  }
+
+
+  /* ---------- 그룹 색상 ---------- */
+  .slide.g-heir   { --navy:#0f2f5f; --blue:#1d4ed8; --mark:#dbe7fb; }
+  .slide.g-aid    { --navy:#0e5f6b; --blue:#0891b2; --mark:#cdeff5; }
+  .slide.g-res    { --navy:#5b2d8e; --blue:#7c3aed; --mark:#e9ddfb; }
+  .slide.g-native { --navy:#8a4a10; --blue:#c2610c; --mark:#fbe6cf; }
+  .slide.g-native .block { margin-bottom: 3mm; }
+  .slide.g-native p.txt { line-height: 1.48; margin-bottom: 1.5mm; }
+  .slide.g-native li { line-height: 1.45; margin-bottom: 1.1mm; }
+
+  .gcard { flex:1; border:1px solid var(--line); border-top:4px solid var(--gc); padding:4mm; min-width:0; display:flex; flex-direction:column; }
+  .gcard .gtag { font-size:9pt; font-weight:700; color:var(--gc); display:block; margin-bottom:1.5mm; }
+  .gcard h4 { font-size:12pt; font-weight:800; color:var(--gc); margin-bottom:2mm; }
+  .gcard p { font-size:9.5pt; color:#3c444e; line-height:1.5; margin-bottom:2.5mm; }
+  .gcard { --tocw: 9mm; }
+  .gcard .toc { margin-top:auto; font-size:9.5pt; line-height:1.5; }
+  .gcard .toc > div { display:flex; gap:2mm; margin-bottom:1.6mm; }
+  .gcard .toc > div:last-child { margin-bottom:0; }
+  .gcard .toc b { color:var(--gc); flex:0 0 var(--tocw); }
+
+  /* ---------- 인쇄 ---------- */
+  @page { size: 297mm 210mm; margin: 0; }
+  @media print {
+    body { background: #fff; }
+    .slide { margin: 0; page-break-after: always; break-after: page; }
+    .slide:last-child { page-break-after: auto; break-after: auto; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 표지 + Intro ============ -->
+<section class="slide cover">
+  <div style="display:flex; align-items:center; gap:13mm; margin-bottom:8mm;">
+    <img class="cover-photo" src="image/profile.jpg" alt="유승민" />
+    <div style="flex:1;">
+      <div class="eyebrow">PORTFOLIO · 2026</div>
+      <div class="name">유승민</div>
+      <div class="role">AI Product Builder · Service &amp; Business Development</div>
+      <div class="one" style="margin-top:5mm;">
+        고객을 직접 만나 인사이트를 발굴하고, 이를 실제 현장에서 쓰이는 서비스와 사업 기회로 연결해 왔습니다.
+        연구경험과 개발경험을 통해 AI 역량을 체득하였으며, 특히 HEIR 프로젝트를 이끌며 '아무리 뛰어난 기술도 고객의 맥락에 맞게 전달될 때
+        비로소 비즈니스적 가치를 창출한다'는 점을 배웠습니다. 이러한 고객 중심의 통찰력, 서비스 구조화 역량, 그리고 글로벌 협업 경험을 바탕으로
+        기술과 사람을 잇는 제품과 서비스로 새로운 가치를 만들겠습니다.
+      </div>
+      <div style="font-size:10pt; color:var(--gray); margin-top:5mm;">
+        ysm020423@gmail.com · 010-6283-7292 · bonda-heir.com
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; gap:4mm; flex:1; min-height:0;">
+    <div class="gcard" style="--gc:#0f2f5f; flex:1.55;">
+      <span class="gtag">창업 · 대표 · 2025.09 ~ 현재</span>
+      <h4>HEIR</h4>
+      <p>문화유산 현장의 문제를 발굴해 3가지 AI 서비스로 구체화했습니다. 대표로서 고객 발굴, 요구 분석, 서비스 기획·개발을 이끌었고 한양대학교 박물관 적용 후 타 기관으로 도입을 확대하고 있습니다.</p>
+      <div class="toc" style="--tocw:14mm;">
+        <div><b>02</b><span>고객 인사이트 발굴 및 문제 정의</span></div>
+        <div><b>03·04</b><span>Bonda — 서비스 가설 검증과 사업화</span></div>
+        <div><b>05</b><span>Heirloom — 현업 동선 기반 서비스 설계</span></div>
+        <div><b>06</b><span>HEIR Exhibition — 콘텐츠 사업모델 기획</span></div>
+      </div>
+    </div>
+
+    <div class="gcard" style="--gc:#0e5f6b;">
+      <span class="gtag">베를린 · AI 엔지니어</span>
+      <h4>Aidvance</h4>
+      <p>다국적 팀과 영어로 협업하며 상담사와 회사의 요구를 함께 해결할 AI 서비스를 제안했습니다. CEO를 설득해 정식 프로젝트로 만들고 총괄을 맡아 2개월 만에 출시했습니다.</p>
+      <div class="toc">
+        <div><b>07</b><span>상담사용 AI 서비스 기획·출시·피드백 설계</span></div>
+      </div>
+    </div>
+
+    <div class="gcard" style="--gc:#5b2d8e;">
+      <span class="gtag">AI 서비스 기획 기반</span>
+      <h4>기술 이해</h4>
+      <p>강화학습과 생성형 AI 모델을 직접 구현하며 복잡한 기술을 빠르게 파악하고, 서비스 적용의 가능성과 제약을 데이터로 판단하는 힘을 길렀습니다.</p>
+      <div class="toc">
+        <div><b>08</b><span>Sim-to-Real: 강화학습 기반 로봇 제어</span></div>
+        <div><b>09</b><span>비전 AI 및 생성형 AI 아키텍처 연구</span></div>
+      </div>
+    </div>
+
+    <div class="gcard" style="--gc:#8a4a10;">
+      <span class="gtag">서비스 운영 실행력</span>
+      <h4>AI 활용</h4>
+      <p>시장 조사, 고객 인터뷰, 회의 기록과 업무 관리를 AI로 지원하는 프로세스를 구축해 3명이 서비스 개발과 고객 대응을 함께 수행했습니다.</p>
+      <div class="toc">
+        <div><b>10</b><span>서비스 기획의 실행력을 높이는 AI 업무 프로세스</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pageno">01</div>
+</section>
+
+<!-- ============ 2. HEIR 팀 + 3대 문제 ============ -->
+<section class="slide g-heir">
+  <h1 class="title">HEIR — 고객 인사이트와 문제 정의</h1>
+  <div class="headline">현장의 문제를 세 가지 서비스와 사업 기회로 구조화했습니다</div>
+  <div class="subtitle">문화유산 AI 스타트업 HEIR (3인 팀 · 고객 인사이트 발굴 및 서비스 포트폴리오 총괄 · 2025.09 ~ 현재)</div>
+  <div class="rule"></div>
+
+  <div class="body">
+    <div class="col-55 stack">
+      <p class="txt">
+        문화유산은 반드시 보존하고 연구해야 할 자산이자 <b>대한민국의 정체성을 세우는 근간</b>입니다.
+        하지만 타 산업에 비해 기술 도입과 혁신이 가장 더딘 분야였습니다.
+        의료와 공학이 AI로 도약하는 동안, 현장은 여전히 수작업에 머물러 있었습니다.
+      </p>
+      <p class="txt" style="margin-bottom:5mm;">
+        대학 동기 두 명과 HEIR를 공동 창업하고 <b>대표로서 팀을 이끌고 있습니다.</b>
+        한양대학교 박물관과 공식 파트너십을 맺고 고객의 업무를 관찰했습니다.
+        현장에서 확인한 요구를 서비스 사양과 우선순위로 바꾸고, 세 가지 서비스의 기획·개발과 도입을 총괄했습니다.
+      </p>
+
+      <div class="block">
+        <span class="label">고객별 문제와 제안 제품</span>
+        <table>
+          <tr>
+            <th style="width:26%;">문제 상황</th>
+            <th style="width:44%;">현상</th>
+            <th style="width:30%;">HEIR의 서비스 제안</th>
+          </tr>
+          <tr>
+            <td><b>연구의 병목</b></td>
+            <td>방대한 발굴조사보고서를 PDF로 일일이 확인하며, 연구자당 2개월 이상 소요</td>
+            <td class="nv">Bonda<br /><span style="font-weight:400; color:var(--gray); font-size:9.5pt;">문화유산 특화 AI</span></td>
+          </tr>
+          <tr>
+            <td><b>유물 관리 부재</b></td>
+            <td>수장고의 유물이 제대로 분류되지 않아 실제 연구와 전시에 활용되지 못함</td>
+            <td class="nv">Heirloom<br /><span style="font-weight:400; color:var(--gray); font-size:9.5pt;">맞춤형 유물 관리 시스템</span></td>
+          </tr>
+          <tr>
+            <td><b>전시 콘텐츠 격차</b></td>
+            <td>고비용 몰입형 콘텐츠 제작의 한계로 소규모 박물관은 정적인 진열장 전시에 정체</td>
+            <td class="nv">HEIR Exhibition<br /><span style="font-weight:400; color:var(--gray); font-size:9.5pt;">저비용 AI 전시 콘텐츠</span></td>
+          </tr>
+        </table>
+      </div>
+
+      <p class="txt" style="color:var(--gray); font-size:10pt;">
+        <b style="color:var(--navy);">사업화 기반 확보</b> — Global Frontier Program · AI-Dea Leading · 창업동아리 선정
+      </p>
+    </div>
+
+    <div class="col-45 stack">
+      <figure class="grow">
+        <img src="assets/02-heir-team/heir-presentation.jpg" alt="HEIR 사업 보고 발표" />
+        <figcaption>한양대학교 박물관 대상 사업 보고 — 「HEIR: 소실된 맥락의 AI 재구성」 발표자 HEIR 팀장 유승민</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="pageno">02</div>
+</section>
+
+<!-- ============ 3. Bonda ① ============ -->
+<section class="slide g-heir">
+  <h1 class="title">Bonda — 고객 인사이트 기반 AI 서비스</h1>
+  <div class="headline">고객의 업무를 관찰하고, 요구를 서비스 가설과 MVP로 바꿨습니다</div>
+  <div class="subtitle">문화유산 특화 AI Bonda — 고객 인터뷰, MVP 검증, 서비스 기획 및 개발 총괄</div>
+  <div class="rule"></div>
+
+  <div class="body">
+    <div class="col-45 stack">
+      <div class="block">
+        <span class="label ghost">Customer Need · 문제 정의</span>
+        <ul>
+          <li><b>검색 불가</b> — 발굴조사보고서가 스캔 문서로 되어 있어 텍스트 검색 불가능</li>
+          <li><b>명칭 파편화</b> — 동일한 유물도 기관마다 부르는 명칭이 달라 자료 탐색 난항</li>
+          <li><b>극심한 비효율</b> — 결과적으로 연구자가 <span class="hl">문헌 조사에만 2개월 이상</span> 소요</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <span class="label ghost">Customer Validation · 검증 루프</span>
+        <p class="txt" style="font-size:10.5pt;">
+          학예사와 고고학 연구실을 직접 찾아가 실제 업무 흐름과 도입 조건을 확인했습니다.
+          고객 요구를 기능 가설로 정리해 최소 기능 제품(MVP)을 빠르게 만들고,
+          현장에서 피드백을 받아 서비스 사양과 우선순위를 수정했습니다.
+        </p>
+        <div class="loop">
+          <span class="node">가설 수립</span><span class="arrow">→</span>
+          <span class="node">MVP 배포</span><span class="arrow">→</span>
+          <span class="node">현장 피드백</span><span class="arrow">→</span>
+          <span class="node">피보팅</span>
+        </div>
+      </div>
+
+      <figure class="grow">
+        <img src="assets/03-bonda-features/curator-meeting.jpg" alt="연구자 인터뷰"
+             style="object-position: center 72%;" />
+        <figcaption>한양대학교 박물관 연구자 인터뷰 — 업무 동선과 도입 조건을 확인하고 요구사항을 제품 사양으로 구체화</figcaption>
+      </figure>
+    </div>
+
+    <div class="col-55 stack">
+      <span class="label">고객 요구를 반영해 남긴 핵심 기능 4가지</span>
+      <div style="display:flex; gap:3mm; flex:1; min-height:0;">
+        <figure style="flex:1.9; min-width:0;" class="grow">
+          <img src="assets/03-bonda-features/bonda-chat.png" alt="Bonda AI 검색" />
+          <figcaption>
+            <b>① 문서 구조화 및 검색</b> — 스캔 문서를 자동으로 구조화<br />
+            <b>② 고고학 사전 연동</b> — 1만 3천 개의 용어를 검색에 연결해 표현이 달라도 동일한 대상을 정확히 탐색
+          </figcaption>
+        </figure>
+        <figure style="flex:1; min-width:0;" class="grow">
+          <img src="assets/03-bonda-features/bonda-map.png" alt="Bonda 발굴 지도" />
+          <figcaption>
+            <b>③ 지도 기반 탐색</b> — 위치 기반으로 자료를 찾는 연구자의 실제 탐색 방식을 화면에 반영<br />
+            <b>④ 이미지·도면 검색</b> — 특히 중요한 유물의 사진과 도면 이미지를 바로 가져올 수 있게 기능 구성
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="pageno">03</div>
+</section>
+
+<!-- ============ 4. Bonda ② ============ -->
+<section class="slide g-heir">
+  <h1 class="title">Bonda — 초기 고객 검증과 사업화</h1>
+  <div class="headline">서비스를 기다리지 않고, 직접 고객을 찾아 도입 가설을 검증했습니다</div>
+  <div class="subtitle">좋은 기술도 고객이 가치를 이해하고 선택해야 사업이 됩니다. 서비스 시연부터 초기 고객 발굴과 도입 협의까지 직접 수행했습니다.</div>
+  <div class="rule"></div>
+
+  <div class="body">
+    <div class="col-45 stack">
+      <div class="block">
+        <span class="label">제품 홍보부터 도입 논의까지</span>
+        <ul>
+          <li><b>초기 레퍼런스 확보</b> — 한양대학교 박물관 시범 도입 완료</li>
+          <li><b>고객 대상 제품 홍보</b> — 전국 학예사 약 50명이 모인 워크숍에서 단독 세션 발표와 라이브 시연 진행</li>
+          <li><b>신규 고객 발굴 및 파이프라인 확대</b> — 잠재 고객기관에 콜드메일을 보내 미팅을 진행하고,
+            <span class="hl">서울대학교·연세대학교 박물관 및 한백문화유산연구원</span>과 도입 논의 중</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <span class="label ghost">핵심 성과 지표</span>
+        <div class="metrics">
+          <div class="metric">
+            <span class="num">50<span style="font-size:11pt;">명</span></span>
+            <span class="cap">워크숍 시연 대상 학예사 규모<br />(잠재 고객)</span>
+          </div>
+          <div class="metric">
+            <span class="num">3<span style="font-size:11pt;">개 기관</span></span>
+            <span class="cap">추가 B2B 서비스<br />도입 논의 진행 중</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="txt" style="font-size:10.5pt; color:var(--gray); margin-top:auto;">
+        고객의 업무를 이해하고 서비스 가치를 설명한 뒤 신규 기관과의 미팅을 만들었습니다.
+        <b style="color:var(--navy);">고객 발굴, 서비스 제안, 피드백 반영, 도입 협의</b>의 전 과정을 직접 수행했습니다.
+      </p>
+    </div>
+
+    <div class="col-55 stack">
+      <figure class="grow">
+        <img src="assets/04-bonda-workshop/workshop.jpg" alt="학예사 대상 워크숍 발표" />
+        <figcaption>
+          큐레이터의 AI Toolbox 워크숍 · 2026.04.01 · 한양대학교 —
+          「AI로 완성하는 스마트 고고학: 문헌 분석부터 유물 분류까지」 직접 발표 및 시연
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="pageno">04</div>
+</section>
+
+<!-- ============ 5. Heirloom ============ -->
+<section class="slide g-heir">
+  <h1 class="title">Heirloom — 현업 동선 기반 서비스 설계</h1>
+  <div class="headline">현업의 요구를 서비스 사양으로 바꾸고 실제 업무에 도입했습니다</div>
+  <div class="subtitle">유물 관리 시스템 Heirloom — 고객 요구 분석, 서비스 기획 및 개발 총괄 (한양대학교 박물관 실무 적용)</div>
+  <div class="rule"></div>
+
+  <div class="body">
+    <div class="col-40 stack">
+      <div class="block">
+        <span class="label ghost">Customer Need · 문제 정의</span>
+        <p class="txt" style="font-size:10.5pt;">
+          수장고의 방대한 유물이 파편화되어 실제 연구나 전시에 활용되지 못한 채 방치되는 문제를 발견했습니다.
+          그 근본 원인을 <b>‘표준화된 유물 관리 체계의 부재’</b>로 정의했습니다.
+        </p>
+      </div>
+
+      <div class="block">
+        <span class="label ghost">Product Planning · 요구사항 구체화</span>
+        <p class="txt" style="font-size:10.5pt;">
+          현업 학예사들과 미팅을 반복하며 불편과 도입 조건을 확인하고,
+          <b>‘촬영 → 기록 → 등록’</b>으로 이어지는 실제 현장 동선에 최적화된
+          프로세스와 화면 흐름을 서비스 사양으로 구체화했습니다.
+        </p>
+      </div>
+
+      <figure class="grow">
+        <img src="assets/05-heirloom/dashboard.png" alt="Heirloom 대시보드" />
+        <figcaption>처리 현황 대시보드 — 등록 대기 5,615점을 한눈에 관리</figcaption>
+      </figure>
+    </div>
+
+    <div class="col-60 stack">
+      <span class="label">고객 요구를 반영한 제품 설계</span>
+
+      <div class="cards" style="flex:0 0 auto;">
+        <div class="card">
+          <span class="tag">01 · 고객 오류 예방</span>
+          <h4>휴먼 에러를 차단하는 방어적 UX</h4>
+          <p>데이터 오기입이 발생할 수 있는 엣지 케이스를 기획 단계에서 예측하고, UI 화면 단에서부터 잘못된 값이 입력될 수 없도록 촘촘한 비즈니스 정책을 적용했습니다.</p>
+        </div>
+        <div class="card">
+          <span class="tag">02 · 업무시간 절감</span>
+          <h4>비전 AI 기반 이미지 전처리</h4>
+          <p>사용자가 사진을 올리기만 하면 유물 영역 분리 및 빛 번짐 보정이 자동 처리되며, 이미지 내 스케일바를 인식해 유물의 실제 크기까지 자동 추정하여 수작업을 없앴습니다.</p>
+        </div>
+        <div class="card">
+          <span class="tag">03 · 제품 로드맵 (개발 중)</span>
+          <h4>멀티모달 자동 라벨링</h4>
+          <p>멀티모달 분류 모델을 도입해 유물 특징 라벨링을 자동화합니다. 1만 점 단위의 방대한 유물도 사진만 찍어 올리면 자동으로 라벨링이 완료되는 스케일업 환경을 구축 중입니다.</p>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:3mm; flex:1.7; min-height:0; margin-top:1mm;">
+        <figure style="flex:1; min-width:0;" class="grow">
+          <img src="assets/05-heirloom/img-original.png" alt="업로드 원본"
+               style="object-position: center 42%;" />
+          <figcaption><b>Before</b> — 학예사가 촬영한 원본</figcaption>
+        </figure>
+        <figure style="flex:1; min-width:0;" class="grow">
+          <img src="assets/05-heirloom/img-processed.png" alt="자동 전처리 결과"
+               style="object-position: center 42%;" />
+          <figcaption><b class="bl">After</b> — 영역 분리·보정 자동 처리. 별도 작업 불필요</figcaption>
+        </figure>
+      </div>
+
+      <div>
+        <span class="label ghost">Customer Value · 도입 효과</span>
+        <p class="txt" style="font-size:10pt; color:var(--gray); margin-top:1mm;">
+          국가기관 의무 제출 서식 자동 변환 기능을 탑재해 학예사의 행정 부담을 줄였습니다.
+          나아가 여러 박물관이 동일한 체계로 데이터를 적재하는
+          <b style="color:var(--navy);">통합 DB</b>를 구축해
+          연구와 전시로 활용 범위를 넓히는 제품 로드맵을 수립했습니다.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pageno">05</div>
+</section>
+
+<!-- ============ 6. HEIR Exhibition ============ -->
+<section class="slide g-heir">
+  <h1 class="title">HEIR Exhibition — AI 콘텐츠 사업모델 기획</h1>
+  <div class="headline">높은 제작비라는 도입 장벽을 낮춘 새로운 콘텐츠 서비스를 기획했습니다</div>
+  <div class="subtitle">AI 전시 콘텐츠 제작 서비스 HEIR Exhibition — 고객 문제 분석 및 신규 콘텐츠 사업화 총괄 (2026년 9월 한양대학교 박물관 전시 적용)</div>
+  <div class="rule"></div>
+
+  <div class="body">
+    <div class="col-40 stack">
+      <div class="block">
+        <span class="label ghost">Customer Need · 비용 문제</span>
+        <p class="txt" style="font-size:10.5pt;">
+          대형 박물관에 관람객이 몰리는 핵심 요인은 <b>‘몰입형 콘텐츠’</b>에 있습니다.
+          반면 소규모 박물관은 높은 제작비 때문에 정적인 전시에 머물러야 했습니다.
+          고객의 예산 안에서 관람객 경험을 개선하는 상품이 필요했습니다.
+        </p>
+      </div>
+
+      <div class="block">
+        <span class="label ghost">Product Planning · 관람객 경험 설계</span>
+        <p class="txt" style="font-size:10.5pt;">
+          관람객이 능동적으로 참여하며 문화유산의 맥락을 이해할 수 있도록 단계별 UX 흐름을 설계했습니다.
+        </p>
+        <div class="flow">
+          <div class="step"><span class="n">01</span><span class="t">모바일<br />파편 스캔</span></div>
+          <div class="step"><span class="n">02</span><span class="t">완형 복원<br />과정 확인</span></div>
+          <div class="step"><span class="n">03</span><span class="t">3D 에셋<br />인터랙션</span></div>
+          <div class="step"><span class="n">04</span><span class="t">유물 일대기<br />영상 감상</span></div>
+        </div>
+      </div>
+
+      <div class="block">
+        <span class="label ghost">Business Feasibility · 제작비 절감</span>
+        <p class="txt" style="font-size:10.5pt;">
+          별도 촬영과 외주 제작비를 줄이기 위해 박물관이 보유한 소수의 사진만으로 3D 자산을 만드는 모델을 개발했습니다.
+          현재 <span class="hl">15장 내외의 사진</span>으로 실제 전시에 활용할 수 있는 품질을 확보하고 있으며,
+          디지털 전문인력이 부족한 기관도 운영할 수 있는 서비스로 고도화하고 있습니다.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="col-60 stack">
+      <div style="display:flex; gap:3mm; flex:1; min-height:0;">
+        <figure style="flex:1; min-width:0;" class="grow">
+          <img src="assets/06-exhibition/sherd-real.png" alt="실제 도자기 파편" />
+          <figcaption>실제 전시 유물 — 파편 상태</figcaption>
+        </figure>
+        <figure style="flex:1; min-width:0;" class="grow">
+          <img src="assets/06-exhibition/scan-detect.png" alt="모바일 스캔 화면" />
+          <figcaption>모바일 스캔 화면 — 객체 자동 인식</figcaption>
+        </figure>
+        <figure style="flex:1; min-width:0;" class="grow">
+          <img src="assets/06-exhibition/restored-3d.jpg" alt="3D 복원 에셋" />
+          <figcaption><b class="bl">3D 복원 에셋 — 모바일 인터랙션 화면</b></figcaption>
+        </figure>
+      </div>
+      <div style="display:flex; gap:3mm; flex:1; min-height:0;">
+        <figure style="flex:1; min-width:0;" class="grow">
+          <img src="assets/06-exhibition/story-video.png" alt="유물 일대기 영상" />
+          <figcaption>스토리텔링 뷰어 — 유물의 일대기 맥락을 전달하는 영상</figcaption>
+        </figure>
+        <figure style="flex:1; min-width:0;" class="grow">
+          <img src="assets/06-exhibition/artifact-detail.png" alt="유물 설명 정리" />
+          <figcaption>마지막에 유물에 대한 설명 정리</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="pageno">06</div>
+</section>
+
+<!-- ============ 7. Aidvance ============ -->
+<section class="slide g-aid">
+  <h1 class="title">Aidvance — 상담사용 AI 서비스 기획과 출시</h1>
+  <div class="headline">다국적 팀을 설득하고, 기술 제안을 2개월 만에 서비스로 완성했습니다</div>
+  <div class="subtitle">Aidvance (베를린 AI 헬스케어 스타트업) — 글로벌 협업, AI 서비스 제안 및 출시 총괄 · 초기 4인 팀 합류 (2025.07 ~ 2026.07)</div>
+  <div class="rule"></div>
+
+  <div class="body">
+    <div class="col-55 stack">
+      <div class="block">
+        <span class="label">비즈니스 문제 발굴과 내부 제안</span>
+        <ul>
+          <li><b>사업 요구 발견</b> — 회사의 고품질 상담 데이터 확보와 상담사의 업무 효율화 요구를 함께 해결하는 솔루션 구상</li>
+          <li><b>경영진 설득</b> — 상담사와 회사의 니즈를 바탕으로 <span class="hl">아이디어를 구체화</span>하고, CEO에게 기술과 사업가치를 설명해 정식 프로젝트로 채택</li>
+          <li><b>출시 총괄</b> — 음성 기록부터 자동 요약, 정보 검색과 리포트 작성까지 현업 흐름을 하나의 서비스로 연결해 <b class="bl">2개월 만에 출시</b></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <span class="label">글로벌 협업과 제품 신뢰성 확보</span>
+        <ul>
+          <li><b>요구사항 조율</b> — 낯선 심리학 분야를 빠르게 학습하고 현업 상담팀과 소통하며 필수 요구사항을 제품 사양으로 정리</li>
+          <li><b>할루시네이션 제어</b> — 전문 진단 기준서를 자동 분석해 지식 DB 구축.
+            22개 장 중 <b>21개 장을 누락 없이 추출</b>해 이전 대비 <b>45% 향상된</b> 고품질 정보 확보</li>
+          <li><b>Human-in-the-Loop 피드백 설계</b> — 개발자만 AI 품질을 확인하는 구조를 탈피해,
+            <span class="hl">비개발자인 상담사가 답변을 직접 평가하는 UI</span>를 기획.
+            현업 피드백이 개발자를 거치지 않고 AI 개선 루프에 즉각 축적되도록 자동화</li>
+          <li><b>글로벌 소통</b> — 베를린 본사의 다양한 전공·국적 구성원과 영어로 협업하며 기술 내용을 비전공자의 언어로 설명. 성과를 인정받아 인턴에서 정식 계약으로 전환</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-45 stack">
+      <figure class="grow">
+        <img src="assets/07-aidvance/home.png" alt="Therapy Copilot" />
+        <figcaption>Therapy Copilot — 세션 분석, AI 코파일럿, 인사이트 도출을 하나의 흐름으로 연결한 대시보드</figcaption>
+      </figure>
+      <figure class="grow">
+        <img src="assets/07-aidvance/page-mypage.png" alt="상담사용 화면" />
+        <figcaption>평가 피드백 루프 — 상담사가 직접 AI의 답변 품질을 평가하고 데이터를 축적하는 UI 화면</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="pageno">07</div>
+</section>
+
+<!-- ============ 8. Robotics ============ -->
+<section class="slide g-res">
+  <h1 class="title">데이터 기반 문제 해결 ① 강화학습 기반 로봇 제어</h1>
+  <div class="headline">낯선 기술을 빠르게 익히고, 서비스 성패를 가르는 핵심 변수를 데이터로 판단했습니다</div>
+  <div class="subtitle">서울대학교 DYROS 연구실 · Sim-to-Real Gap 완화 (참여연구원 · 2026.07 ~ 2026.08)</div>
+  <div class="rule"></div>
+
+  <div class="body">
+    <div class="col-45 stack">
+      <div class="block">
+        <span class="label ghost">기술 과제 · 현실에 적용되지 않는 AI</span>
+        <p class="txt" style="font-size:10.5pt;">
+          시뮬레이션에서는 완벽하게 성공한 강화학습(RL) 정책이,
+          가상과 실제의 미세한 환경 차이로 인해 실제 로봇에서는 실패하는
+          <b>‘Sim-to-Real Gap’</b> 문제를 해결해야 했습니다.
+        </p>
+      </div>
+
+      <div class="block">
+        <span class="label ghost">분석 · 데이터 기반 핵심 변수 도출</span>
+        <p class="txt" style="font-size:10.5pt;">
+          정밀 조립 작업(Peg-in-hole)의 실패 데이터를 분석한 결과, 오류 패턴이 무작위가 아님을 발견했습니다.
+          5가지 물리 변수를 개별 통제하며 실험한 결과, 질량 변수의 영향은 미미한 반면
+          <span class="hl">쿨롱 마찰 계수가 0.15Nm에 도달할 때 성공률이 0%로 급감</span>하는 현상을
+          데이터로 증명했습니다.
+        </p>
+      </div>
+
+      <div class="block">
+        <span class="label ghost">검증 · 핵심 변수에 집중한 Gap 완화</span>
+        <p class="txt" style="font-size:10.5pt;">
+          핵심적인 변수만을 타겟팅하여 Gap 완화 기법인
+          <b>도메인 랜덤화(Domain Randomization)</b>를 적용했고,
+          <span class="hl">0%였던 태스크 성공률을 95%까지 끌어올렸습니다.</span>
+        </p>
+      </div>
+
+      <div class="metrics" style="margin-top:auto;">
+        <div class="metric">
+          <span class="num">0% <span style="font-size:13pt; color:var(--blue);">→</span> 95.5%</span>
+          <span class="cap">새로운 정책을 적용한<br />실제 로봇 환경에서의 작업 성공률</span>
+        </div>
+        <div class="metric">
+          <span class="num">2<span style="font-size:11pt;">개월</span></span>
+          <span class="cap">낯선 로보틱스 도메인에서<br />단기간에 이뤄낸 문제 해결</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-55 stack">
+      <figure class="grow" style="flex:1.4;">
+        <img src="assets/08-robotics/dyros_project/uploads/EXP-20260827-factory-twin-success-by-axis.png"
+             alt="변수별 성공률" style="object-fit:contain; background:#fff;" />
+        <figcaption>
+          물리 변수 5종 교란 성공률 그래프 —
+          <b>마찰력(Friction) 변수만 절벽처럼 붕괴</b>하는 현상을 증명
+        </figcaption>
+      </figure>
+      <figure class="grow">
+        <img src="assets/08-robotics/dyros_project/uploads/sim_robot_wide.png" alt="시뮬레이션 환경" />
+        <figcaption>Isaac Lab 기반 강화학습 환경 — 타겟팅된 정책을 학습시키는 시뮬레이터 화면</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="pageno">08</div>
+</section>
+
+<!-- ============ 9. Computer Vision ============ -->
+<section class="slide g-res">
+  <h1 class="title">AI 서비스 기획 기반 ② 생성형 AI 및 컴퓨터비전</h1>
+  <div class="headline">복잡한 기술을 원리부터 이해해 개발 조직과 정확히 소통할 수 있습니다</div>
+  <div class="subtitle">한양대학교 Baik Lab (학부연구생 · 2024.01 ~ 2025.12)</div>
+  <div class="rule"></div>
+
+  <div class="body">
+    <div class="col-55 stack">
+      <div class="block">
+        <span class="label ghost">생성형 AI · 개인화(Personalization) 모델 연구</span>
+        <ul>
+          <li>DDPM부터 Stable Diffusion, 최신 VAR(Vision Auto-Regressive) 모델까지
+            이미지 생성 모델의 발전 흐름을 분석하고 <b>아키텍처를 직접 구현</b></li>
+          <li>최신 VAR 모델에 Textual Inversion 기법을 적용하여,
+            최소한의 이미지 데이터만으로 특정 대상을 학습시키는 <b>생성형 모델 개인화 연구</b> 수행</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <span class="label ghost">비전 AI · 객체 탐지 및 세그멘테이션</span>
+        <ul>
+          <li>R-CNN부터 DETR, SAM까지 비전 AI 기술의 패러다임 변화를 분석하고,
+            <b>RetinaNet과 DETR을 직접 구현</b>하며 학습 파이프라인 전 과정을 경험</li>
+          <li>연구실의 <b>Zero-shot Segmentation 논문 저널화 과정</b>에 참여하며 기술적·학술적 완성도를 높임</li>
+        </ul>
+      </div>
+
+      <div class="quote">
+        <b>기술을 고객가치의 언어로 설명하는 기반</b><br />
+        생성 모델과 비전 AI의 아키텍처를 직접 다뤄본 경험은
+        새로운 기술의 작동 원리와 한계를 빠르게 파악하는 힘으로 이어졌습니다.
+        이를 바탕으로 앞선 Heirloom의 <b>이미지 자동 전처리</b>와 Exhibition의 <b>3D 복원</b>을
+        실현 가능한 기능으로 구체화했습니다. 기술을 직접 다뤄본 경험은 고객 요구를 개발 조직에 정확히 전달하고,
+        <span class="hl">기술의 차이를 고객이 얻는 가치로 설명하는 기반</span>이 됩니다.
+      </div>
+    </div>
+
+    <div class="col-45 stack">
+      <figure class="grow">
+        <img src="assets/09-computer-vision/layer_1_cross_attn_grid.jpg" alt="Cross-attention map 분석" style="object-fit:contain; background:#000;" />
+        <figcaption>VAR 모델의 토큰별 Cross-attention Map 분석 — 모델이 텍스트의 어느 부분을 기반으로 이미지의 어느 영역을 생성하는지 직접 추출 및 분석한 결과</figcaption>
+      </figure>
+      <figure class="grow">
+        <img src="assets/09-computer-vision/cv-result.webp" alt="구현 결과" style="object-fit:contain; background:#fff;" />
+        <figcaption>직접 구현한 Stable Diffusion 모델의 Inference 결과</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="pageno">09</div>
+</section>
+
+<!-- ============ 10. 마무리 ============ -->
+<section class="slide g-native">
+  <h1 class="title">AI 활용 — 서비스 기획의 실행력을 높이는 업무 프로세스</h1>
+  <div class="headline">3명이 서비스 개발과 고객 인사이트 발굴을 함께 수행할 수 있도록 업무 방식을 재설계했습니다</div>
+  <div class="rule"></div>
+
+  <div class="body">
+    <div class="col-55 stack">
+      <div class="block">
+        <span class="label ghost">문제 · 사업개발 인력의 한계</span>
+        <p class="txt" style="font-size:10.5pt;">
+          3명이 서비스 기획과 개발뿐 아니라 시장 조사, 고객 인사이트 발굴, 미팅과 후속 업무까지
+          동시에 수행해야 했습니다. 고객 대응이 늘어날수록 반복 업무가 중요한 판단 시간을 잠식했습니다.
+        </p>
+      </div>
+
+      <div class="block">
+        <span class="label ghost">해결 01 · 사업개발 워크플로우 자동화</span>
+        <ul>
+          <li>고객 정보와 제품 명세, 미팅 기록을 <b>문서 기반 워크스페이스</b>에 통합하고 AI가 필요한 맥락을 읽도록 구성</li>
+          <li>시장 조사, 고객별 콜드메일 초안, 회의록 요약과 후속 일정 관리 등
+            <span class="hl">반복 업무를 AI로 지원해 고객과 제품에 집중할 시간을 확보</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <span class="label ghost">해결 02 · 고객 요구와 내부 실행의 연결</span>
+        <p class="txt" style="font-size:10.5pt;">
+          고객 피드백으로 서비스 방향이 바뀔 때 발생하는 재작업을 줄이기 위해,
+          요구사항을 기능과 우선순위로 정리한 뒤 담당자와 합의하고 개발에 반영하는 프로세스를 만들었습니다.
+        </p>
+        <div class="flow">
+          <div class="step"><span class="n">01</span><span class="t">고객 요구<br />정리</span></div>
+          <div class="step"><span class="n">02</span><span class="t">기능·우선순위<br />합의</span></div>
+          <div class="step"><span class="n">03</span><span class="t">담당자별<br />실행 항목 공유</span></div>
+          <div class="step"><span class="n">04</span><span class="t">제품 반영 및<br />고객 확인</span></div>
+        </div>
+      </div>
+
+      <div class="block">
+        <span class="label ghost">결과 · 고객 대응 속도와 내부 소통 개선</span>
+        <ul>
+          <li><b>정보 누락 방지</b> — 고객별 요청과 결정 사항을 한곳에 축적해 후속 대응과 제품 반영 여부를 명확하게 관리</li>
+          <li><b>팀 생산성 향상</b> — 반복 업무를 줄여 소수 인력으로 세 가지 제품의 개발과 고객 발굴을 동시에 수행</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-45 stack">
+      <figure class="grow">
+        <img src="assets/10-workflow/workspace-tree.png" alt="문서 기반 워크스페이스" style="object-fit:contain; background:#1e1e1e;" />
+        <figcaption>HEIR의 문서 기반 워크스페이스 — 고객 정보, 제품 명세, 미팅과 후속 업무를 통합하고 AI가 반복 업무를 지원</figcaption>
+      </figure>
+
+      <div style="border:2px solid var(--navy); padding:5mm; margin-top:auto;">
+        <p style="font-size:11.5pt; line-height:1.6; font-weight:700; color:var(--navy);">
+          “고객의 문제에서 인사이트를 발견하고, AI를 신뢰할 수 있는 제품과 서비스로 연결하겠습니다.”
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pageno">10</div>
+</section>
+
+</body>
+</html>
